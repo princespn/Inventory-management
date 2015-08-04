@@ -7,27 +7,24 @@ $this->requestAction('/users/logout/', array('return'));
 <div class="listings form">
 
 <?php // echo $this->Form->create('Listing',array('enctype'=>'multipart/form-data'));
-echo $this->Form->create('Listing');
+echo $this->Form->create('Listing',array('charset'=>'UTF-8'));
 ?>
 	<fieldset>
 		<legend><?php __('Edit Amazon France Listing'); ?></legend>
 		<?php
 	    	echo $this->Form->hidden('id',array('value'=>$this->data['Listing']['id']));
 		echo $this->Form->input('item_sku');
-		
-		$external_id = mb_convert_encoding($this->data['Listing']['external_product_id'], "UTF-8", mb_detect_encoding($this->data['Listing']['external_product_id'], "UTF-8, ISO-8859-1, ISO-8859-15", true));
+		echo $this->Form->hidden('external_product_id',array('value'=>$this->data['Listing']['external_product_id']));
 		echo $this->Form->input('external_product_id',array('type'=>'text','value'=>$external_id));
-		echo $this->Form->input('external_product_id_type');
-		 $item_name = mb_convert_encoding($this->data['Listing']['item_name'], "UTF-8", mb_detect_encoding($this->data['Listing']['item_name'], "UTF-8, ISO-8859-1, ISO-8859-15", true));
-		echo $this->Form->input('item_name',array('id'=>'sessionNum','value'=>$item_name,'maxlength'=>'500','error' => 'Item name maximum length is 500 characters.'));
+		echo $this->Form->input('external_product_id_type');		
+		echo $this->Form->input('item_name',array('id'=>'sessionNum','maxlength'=>'500','error' => 'Item name maximum length is 500 characters.'));
 		?><div class="text_errror">Number of chars: <span id="sessionNum_counter">500</span></div>
 	
 	<?php	echo $this->Form->input('brand_name');
 		echo $this->Form->input('manufacturer');
 		echo $this->Form->input('feed_product_type');
-		echo $this->Form->input('part_number');
-		 $description = mb_convert_encoding($this->data['Listing']['product_description'], "UTF-8", mb_detect_encoding($this->data['Listing']['product_description'], "UTF-8, ISO-8859-1, ISO-8859-15", true));
-		echo $this->Form->input('product_description',array('id'=>'sessiondesc','value'=>$description,'maxlength'=>'2000','error' => 'description maximum length is 2000 characters.'));
+		echo $this->Form->input('part_number');		
+		echo $this->Form->input('product_description',array('id'=>'sessiondesc','maxlength'=>'2000','error' => 'description maximum length is 2000 characters.'));
 		?><div class="text_errror">Number of chars: <span id="sessiondesc_counter">2000</span></div>
 	
 	<?php echo $this->Form->input('update_delete');
@@ -71,36 +68,27 @@ echo $this->Form->create('Listing');
 		echo $this->Form->input('recommended_browse_nodes1');
 		echo $this->Form->input('recommended_browse_nodes2');
 		echo $this->Form->input('catalog_number');
-		$bull_point1 = mb_convert_encoding($this->data['Listing']['bullet_point1'], "UTF-8", mb_detect_encoding($this->data['Listing']['bullet_point1'], "UTF-8, ISO-8859-1, ISO-8859-15", true));
 		
-		echo $this->Form->input('bullet_point1',array('id'=>'sessionbullet1','value'=>$bull_point1,'maxlength'=>'500','error' => 'Bullet Point1 maximum length is 500 characters.'));
+		echo $this->Form->input('bullet_point1',array('id'=>'sessionbullet1','maxlength'=>'500','error' => 'Bullet Point1 maximum length is 500 characters.'));
 		?><div class="text_errror">Number of chars: <span id="sessionbullet1_counter">500</span></div>
-	<?php 
-	$bull_point2 = mb_convert_encoding($this->data['Listing']['bullet_point2'], "UTF-8", mb_detect_encoding($this->data['Listing']['bullet_point2'], "UTF-8, ISO-8859-1, ISO-8859-15", true));
-	echo $this->Form->input('bullet_point2',array('id'=>'sessionbullet2','value'=>$bull_point2,'maxlength'=>'500','error' => 'Bullet Point1 maximum length is 500 characters.'));
+	<?php 	
+		echo $this->Form->input('bullet_point2',array('id'=>'sessionbullet2','maxlength'=>'500','error' => 'Bullet Point1 maximum length is 500 characters.'));
 		?><div class="text_errror">Number of chars: <span id="sessionbullet2_counter">500</span></div>
 	<?php 
-	$bull_point3 = mb_convert_encoding($this->data['Listing']['bullet_point3'], "UTF-8", mb_detect_encoding($this->data['Listing']['bullet_point3'], "UTF-8, ISO-8859-1, ISO-8859-15", true));
-	echo $this->Form->input('bullet_point3',array('id'=>'sessionbullet3','value'=>$bull_point3,'maxlength'=>'500','error' => 'Bullet Point1 maximum length is 500 characters.'));
+	echo $this->Form->input('bullet_point3',array('id'=>'sessionbullet3','maxlength'=>'500','error' => 'Bullet Point1 maximum length is 500 characters.'));
 		?><div class="text_errror">Number of chars: <span id="sessionbullet3_counter">500</span></div>
-	<?php $bull_point4 = mb_convert_encoding($this->data['Listing']['bullet_point4'], "UTF-8", mb_detect_encoding($this->data['Listing']['bullet_point4'], "UTF-8, ISO-8859-1, ISO-8859-15", true));
-	echo $this->Form->input('bullet_point4',array('id'=>'sessionbullet4','value'=>$bull_point4,'maxlength'=>'500','error' => 'Bullet Point1 maximum length is 500 characters.'));
+	<?php 
+	echo $this->Form->input('bullet_point4',array('id'=>'sessionbullet4','maxlength'=>'500','error' => 'Bullet Point1 maximum length is 500 characters.'));
 		?><div class="text_errror">Number of chars: <span id="sessionbullet4_counter">500</span></div>
-	<?php $bull_point5 = mb_convert_encoding($this->data['Listing']['bullet_point5'], "UTF-8", mb_detect_encoding($this->data['Listing']['bullet_point5'], "UTF-8, ISO-8859-1, ISO-8859-15", true));
-	echo $this->Form->input('bullet_point5',array('id'=>'sessionbullet5','value'=>$bull_point5,'maxlength'=>'500','error' => 'Bullet Point1 maximum length is 500 characters.'));
+	<?php echo $this->Form->input('bullet_point5',array('id'=>'sessionbullet5','maxlength'=>'500','error' => 'Bullet Point1 maximum length is 500 characters.'));
 		?><div class="text_errror">Number of chars: <span id="sessionbullet5_counter">500</span></div>
 	
 		<?php 
-		$gen_keywords1 = mb_convert_encoding($this->data['Listing']['generic_keywords1'], "UTF-8", mb_detect_encoding($this->data['Listing']['generic_keywords1'], "UTF-8, ISO-8859-1, ISO-8859-15", true));
-		echo $this->Form->input('generic_keywords1',array('value'=>$gen_keywords1));
-		$gen_keywords2 = mb_convert_encoding($this->data['Listing']['generic_keywords2'], "UTF-8", mb_detect_encoding($this->data['Listing']['generic_keywords2'], "UTF-8, ISO-8859-1, ISO-8859-15", true));
-		echo $this->Form->input('generic_keywords2',array('value'=>$gen_keywords2));
-		$gen_keywords3 = mb_convert_encoding($this->data['Listing']['generic_keywords3'], "UTF-8", mb_detect_encoding($this->data['Listing']['generic_keywords3'], "UTF-8, ISO-8859-1, ISO-8859-15", true));
-		echo $this->Form->input('generic_keywords3',array('value'=>$gen_keywords3));
-		$gen_keywords4 = mb_convert_encoding($this->data['Listing']['generic_keywords4'], "UTF-8", mb_detect_encoding($this->data['Listing']['generic_keywords4'], "UTF-8, ISO-8859-1, ISO-8859-15", true));
-		echo $this->Form->input('generic_keywords4',array('value'=>$gen_keywords4));
-		$gen_keywords5 = mb_convert_encoding($this->data['Listing']['generic_keywords5'], "UTF-8", mb_detect_encoding($this->data['Listing']['generic_keywords5'], "UTF-8, ISO-8859-1, ISO-8859-15", true));
-		echo $this->Form->input('generic_keywords5',array('value'=>$gen_keywords5));
+		echo $this->Form->input('generic_keywords1');
+		echo $this->Form->input('generic_keywords2');
+		echo $this->Form->input('generic_keywords3');
+		echo $this->Form->input('generic_keywords4');
+		echo $this->Form->input('generic_keywords5');		
 		echo $this->Form->input('platinum_keywords1');
 		echo $this->Form->input('platinum_keywords2');
 		echo $this->Form->input('platinum_keywords3');

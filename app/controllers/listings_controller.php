@@ -10,6 +10,11 @@ class ListingsController extends AppController {
 		parent::beforeFilter();
 		//$this->Auth->allow('*');
 		$this->Auth->allow(array('login','logout','index','edit','delete','import'));
+		$this->layout = 'defaultFR';
+		Configure::write('Config.language', "fra");
+		$this->Session->write('Config.language', 'fra');
+		setlocale(LC_ALL, 'fr_CA.utf-8');
+		
 	}
 	
 			/*function index() {		
@@ -98,6 +103,7 @@ class ListingsController extends AppController {
 	$this->set('projects',$this->Listing->find('all'));
 	$this->layout = null;
 	$this->autoLayout = false;
+	Configure::write('App.encoding', 'utf8_unicode_ci');  
 	Configure::write('debug', '0');
  }
 	

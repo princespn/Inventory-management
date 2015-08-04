@@ -64,9 +64,8 @@ $this->requestAction('/users/logout/', array('return'));
 				 echo "<div style='color:red;'>Item Name must be no long 500 characters.</div>";
 				 
 				 }else {
-				 $itemname = substr($row1,0,200); 
-				  $item_name = mb_convert_encoding($itemname, "UTF-8", mb_detect_encoding($itemname, "UTF-8, ISO-8859-1, ISO-8859-15", true));
-				 echo ($item_name);
+				 $itemname = substr($row1,0,200); 				 
+				 echo ($itemname);
 								 
 				 }
 		

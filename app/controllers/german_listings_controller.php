@@ -9,6 +9,7 @@ class GermanListingsController extends AppController {
 	{
 		parent::beforeFilter();
 		$this->Auth->allow('*');
+		$this->layout = 'defaultGR';
 		//$this->Auth->allow(array('login','logout','index','edit','delete','groups','import'));
 	}
 	
