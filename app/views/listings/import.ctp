@@ -20,7 +20,7 @@ echo $this->Form->create('Listing',array('action' => 'import','enctype'=>'multip
 		?> 
 		
 	</fieldset>
-	<div class='reset'>
+	<div class='submit'>
 <?php 
 echo $this->Form->button('Import the listing', array('id'=>'submit','disabled'=>'disabled','type'=>'submit'));
 echo "&nbsp;&nbsp;&nbsp;&nbsp;";

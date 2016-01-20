@@ -9,7 +9,7 @@ class ListingsController extends AppController {
 	{
 		parent::beforeFilter();
 		//$this->Auth->allow('*');
-		$this->Auth->allow(array('login','logout','index','edit','delete','import'));
+		$this->Auth->allow(array('login','logout','index','edit','delete','import','update','categoriesPro','category'));
 		$this->layout = 'defaultFR';
 		Configure::write('Config.language', "fra");
 		$this->Session->write('Config.language', 'fra');
@@ -30,17 +30,18 @@ class ListingsController extends AppController {
 			$string = explode(",",trim($this->data['Listing']['all_item']));
 			
 				$prsku = 	$string[0];
-				$prname = 	$string[1];
+				if(!empty($string[1])){
+				$prname = 	$string[1];}
 	
 		if((!empty($prsku)) && (!empty($prname))){//debug($this->data); die();
 			//$conditions = array('Listing.item_sku' => $prsku);
-			$conditions = array('Listing.item_name LIKE' => '%'.$prname.'%','Listing.item_sku LIKE' => '%'.$prsku.'%');
+			$conditions = array('Listing.product_code LIKE' => '%'.$prname.'%','Listing.item_sku LIKE' => '%'.$prsku.'%');
 		$this->paginate = array('limit' => 1000,'totallimit' => 2000,'order'=>'Listing.item_sku  ASC','conditions' => $conditions);
 			}
 			if((!empty($prsku))){
 			
 			$conditions = array(
-			'OR'=> array('Listing.item_name LIKE' => "%$prsku%",'Listing.item_sku LIKE' => "%$prsku%"));
+			'OR'=> array('Listing.product_code LIKE' => "%$prsku%",'Listing.item_sku LIKE' => "%$prsku%"));
 			$this->paginate = array('limit' => 1000,'totallimit' => 2000,'order'=>'Listing.item_sku  ASC','conditions' => $conditions);
 			}
 		
@@ -62,16 +63,40 @@ class ListingsController extends AppController {
 		else
 		{
 		$this->Listing->recursive = 1;
-		$this->paginate = array('limit' => 1000,'totallimit' => 2000,'order'=>'Listing.item_sku  ASC');
+		$this->paginate = array('limit' => 1000,'totallimit' => 2000,'order'=>'Listing.id  ASC');
 		$this->set('listings', $this->paginate());
 		}
 	}
+        
+          function categoriesPro() {
+            $this->loadModel('InventoryMaster');
+            $procategory = $this->InventoryMaster->find('list', array('fields' =>'category','group'=>'category','recursive' => 0));
+		return $procategory;
+	}
+        
+                 function category($id) { 
+                     
+                                 if((!empty($id)))
+                                             {
+                                     //$id = 'Duvet Covers';
+                                           $this->loadModel('InventoryMaster');
+                                            $procategory = $this->InventoryMaster->find('list',array('fields'=>'product_code','conditions' => array('InventoryMaster.category LIKE' => "%$id%")));
+                                           $conditions = array('Listing.product_code'=>$procategory);
+                                            $this->paginate = array('limit' => 1000,'totallimit' => 2000,'order'=>'Listing.id  ASC','conditions' => $conditions);
+					                                             
+                                             }
+                                         $this->Listing->recursive = 1;
+                                         $this->set('listings', $this->paginate());
+
+                            }
+	
+	
 	function import() {
 		if (!empty($this->data))
                         { 
 		$filename = $this->data['Listing']['file']['name'];	
 		$fileExt = explode(".", $filename);
-		$fileExt2 = end($fileExt);
+		$fileExt2 = end($fileExt);//print_r($filename);die();
 		if($fileExt2 == 'csv') {
 		if(move_uploaded_file($this->data['Listing']['file']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . '/app/webroot/files/' . $this->data['Listing']['file']['name'])) 
 			$messages = $this->Listing->import($filename);
@@ -85,6 +110,32 @@ class ListingsController extends AppController {
 		}
 	
 						}			
+						else 
+						{
+			//$filename = 'Amazon_UK_Inventory-old.csv';
+			//$messages = $this->Listing->import($filename);
+				}
+			
+		
+		}
+
+		function update() {
+		if (!empty($this->data))
+                        { 
+		$filename = $this->data['Listing']['file']['name'];	
+		$fileExt = explode(".", $filename);
+		$fileExt2 = end($fileExt);
+		if($fileExt2 == 'csv') {
+		if(move_uploaded_file($this->data['Listing']['file']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . '/app/webroot/files/' . $this->data['Listing']['file']['name'])) 
+			$messages = $this->Listing->update($filename);
+			$this->Session->setFlash(__('The Amazon France Listing was Update successfully.', true));
+			$this->set('anything', $messages);
+			Configure::write('debug', '2');
+				}else {
+			
+			$this->Session->setFlash(__('The Amazon France Listing File format not supported.</br>Please upload .CSV file format only.', true));
+		}
+			}			
 						else 
 						{
 			//$filename = 'Amazon_UK_Inventory-old.csv';

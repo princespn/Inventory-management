@@ -9,13 +9,15 @@ $this->requestAction('/users/logout/', array('return'));
 <?php echo $this->Form->create('Project');?>
 	<fieldset>
 		<legend><?php __('Edit Amazon UK Listing'); ?></legend>
+		<div style="float:right;"><?php echo $this->Form->button('Save data', array('value'=>'Save data','type'=>'submit')); ?></div>
 		<?php
 		echo $this->Form->hidden('id',array('value'=>$this->data['Project']['id']));
-	   	echo $this->Form->input('item_sku');
-		//echo $this->Form->input('external_product_id');
+                echo $this->Form->input('product_code');
+	   	echo $this->Form->input('item_sku');		
+		echo $this->Form->input('external_product_id',array('type'=>'text','label' =>'External Product Id','value'=>$this->data['Project']['external_product_id']));
 		echo $this->Form->input('external_product_id_type');
 		echo $this->Form->input('item_name',array('id'=>'sessionNum','maxlength'=>'500','error' => 'Item name maximum length is 500 characters.'));
-		?><div class="text_errror">Number of chars: <span id="sessionNum_counter">500</span></div>
+		?><div class="text_errror">Number of chars: <span id="sessionNum_counter">500</span>&nbsp;&nbsp;&nbsp;<a href=""><?php echo "Title cheker"; ?></a></div>
 	
 	<?php	echo $this->Form->input('brand_name');
 		echo $this->Form->input('manufacturer');
@@ -26,6 +28,7 @@ $this->requestAction('/users/logout/', array('return'));
 	
 	<?php echo $this->Form->input('update_delete');
 		echo $this->Form->input('product_site_launch_date');
+		//echo $this->Form->input('orignal_price');
 		echo $this->Form->input('standard_price');
 		echo $this->Form->input('currency');
 		echo $this->Form->input('quantity');
@@ -75,13 +78,18 @@ $this->requestAction('/users/logout/', array('return'));
 		?><div class="text_errror">Number of chars: <span id="sessionbullet4_counter">500</span></div>
 	<?php echo $this->Form->input('bullet_point5',array('id'=>'sessionbullet5','maxlength'=>'500','error' => 'Bullet Point1 maximum length is 500 characters.'));
 		?><div class="text_errror">Number of chars: <span id="sessionbullet5_counter">500</span></div>
+	 <?php echo $this->Form->input('generic_keywords1',array('id'=>'sessiongen_key1','maxlength'=>'50','error' => 'Generic keywords1 maximum length is 50 characters.'));
+		?><div class="text_errror">Number of chars: <span id="sessiongen_counter1">50</span></div>
+	 <?php echo $this->Form->input('generic_keywords2',array('id'=>'sessiongen_key2','maxlength'=>'50','error' => 'Generic keywords2 maximum length is 50 characters.'));
+		?><div class="text_errror">Number of chars: <span id="sessiongen_counter2">50</span></div>
+	 <?php echo $this->Form->input('generic_keywords3',array('id'=>'sessiongen_key3','maxlength'=>'50','error' => 'Generic keywords3 maximum length is 50 characters.'));
+		?><div class="text_errror">Number of chars: <span id="sessiongen_counter3">50</span></div>
+	 <?php echo $this->Form->input('generic_keywords4',array('id'=>'sessiongen_key4','maxlength'=>'50','error' => 'Generic keywords4 maximum length is 50 characters.'));
+		?><div class="text_errror">Number of chars: <span id="sessiongen_counter4">50</span></div>
+	 <?php echo $this->Form->input('generic_keywords5',array('id'=>'sessiongen_key5','maxlength'=>'50','error' => 'Generic keywords5 maximum length is 50 characters.'));
+		?><div class="text_errror">Number of chars: <span id="sessiongen_counter5">50</span></div>
 	
 		<?php 
-		echo $this->Form->input('generic_keywords1');
-		echo $this->Form->input('generic_keywords2');
-		echo $this->Form->input('generic_keywords3');
-		echo $this->Form->input('generic_keywords4');
-		echo $this->Form->input('generic_keywords5');
 		echo $this->Form->input('platinum_keywords1');
 		echo $this->Form->input('platinum_keywords2');
 		echo $this->Form->input('platinum_keywords3');
@@ -110,11 +118,9 @@ $this->requestAction('/users/logout/', array('return'));
 		echo $this->Form->input('size_name');
 		echo $this->Form->input('material_type1');
 		echo $this->Form->input('material_type2');
-		
-		
-		
+		$error_by = '';
+		echo $this->Form->hidden('error',array('value'=>$error_by));
 		$modify_by = $session->read('Auth.User.username');
-
 		echo $this->Form->hidden('modify_by',array('value'=>$modify_by));
 		?>
 		
@@ -209,6 +215,71 @@ if (max_lengthdesc > 0) {
         length = new Number(maxCharsdesc.val().length);
         counter = max_lengthdesc-length;
         $("#sessionbullet5_counter").text(counter);
+    });
+}
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+var maxCharsdesc = $("#sessiongen_key1");
+var max_lengthdesc = maxCharsdesc.attr('maxlength');
+if (max_lengthdesc > 0) {
+    maxCharsdesc.bind('keyup', function(e){
+        length = new Number(maxCharsdesc.val().length);
+        counter = max_lengthdesc-length;
+        $("#sessiongen_counter1").text(counter);
+    });
+}
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+var maxCharsdesc = $("#sessiongen_key2");
+var max_lengthdesc = maxCharsdesc.attr('maxlength');
+if (max_lengthdesc > 0) {
+    maxCharsdesc.bind('keyup', function(e){
+        length = new Number(maxCharsdesc.val().length);
+        counter = max_lengthdesc-length;
+        $("#sessiongen_counter2").text(counter);
+    });
+}
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+var maxCharsdesc = $("#sessiongen_key3");
+var max_lengthdesc = maxCharsdesc.attr('maxlength');
+if (max_lengthdesc > 0) {
+    maxCharsdesc.bind('keyup', function(e){
+        length = new Number(maxCharsdesc.val().length);
+        counter = max_lengthdesc-length;
+        $("#sessiongen_counter3").text(counter);
+    });
+}
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+var maxCharsdesc = $("#sessiongen_key4");
+var max_lengthdesc = maxCharsdesc.attr('maxlength');
+if (max_lengthdesc > 0) {
+    maxCharsdesc.bind('keyup', function(e){
+        length = new Number(maxCharsdesc.val().length);
+        counter = max_lengthdesc-length;
+        $("#sessiongen_counter4").text(counter);
+    });
+}
+});
+</script>
+<script type="text/javascript">
+$(document).ready(function(){
+var maxCharsdesc = $("#sessiongen_key5");
+var max_lengthdesc = maxCharsdesc.attr('maxlength');
+if (max_lengthdesc > 0) {
+    maxCharsdesc.bind('keyup', function(e){
+        length = new Number(maxCharsdesc.val().length);
+        counter = max_lengthdesc-length;
+        $("#sessiongen_counter5").text(counter);
     });
 }
 });

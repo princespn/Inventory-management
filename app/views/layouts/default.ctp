@@ -2,25 +2,47 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <?php echo $this->Html->charset(); ?>
-<?php echo $this->Html->meta('keywords','enter any meta keyword here');?>
-<?php echo $this->Html->meta('description','enter any meta description here');?>
-	<title>
-		<?php __('Inventory Management'); ?> - 
-		<?php echo $title_for_layout; ?>
-	</title>
+<meta name=viewport content="width=device-width, initial-scale=1">
+<?php echo $this->Html->meta('keywords','Listing,import');?>
+<?php echo $this->Html->meta('description','Inventory Management System');?>
+<title><?php __('Inventory Management'); ?> <?php echo $title_for_layout; ?></title>
 		<?php
-		echo $this->Html->meta('icon');
 		echo $this->Html->css('cake.generic');
-		echo $this->Html->css(array('reset', 'text', 'grid', 'layout', 'nav'));
-		echo '<!--[if IE 6]>'.$this->Html->css('ie6').'<![endif]-->';
-		echo '<!--[if IE 7]>'.$this->Html->css('ie').'<![endif]-->';
-		echo $this->Html->script(array('jquery-1.3.2.min.js', 'jquery-ui.js', 'jquery-fluid16.js'));
-		echo $scripts_for_layout;
+		echo $this->Html->css(array('ap-scroll-top','text', 'grid', 'layout', 'nav'));
+		//echo $this->Html->script(array('jquery-1.3.2.min.js', 'jquery-ui.js', 'jquery-fluid16.js'));
+		//echo $scripts_for_layout;
 	?>
 <?php echo $this->Html->meta('favicon.ico','/img/favicon.ico',array('type' => 'icon'));?> 
-<?php echo $this->Html->script('scripts'); echo $this->Html->script('jquery-1.11.1.min');?>
+<?php //echo $this->Html->script('ap-scroll-top');?>
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+ 
+<script>
+$(document).ready(function(){
+	$('#InventoryMasterFile').change(function(){
+	$('#submit').removeAttr('disabled');
+	
+	});
+	$('#submit').click(function(){
+		$('#progress').show(1000);	
+	
+	});
+    
+});
+</script>
+ <script>
+$(document).ready(function(){
+	$('#EbayenglishListingFile').change(function(){
+	$('#submit').removeAttr('disabled');
+	
+	});
+	$('#submit').click(function(){
+		$('#progress').show(1000);	
+	
+	});
+    
+});
+</script>
 <script>
 $(document).ready(function(){
 	$('#GermanListingFile').change(function(){
@@ -98,35 +120,33 @@ $.noConflict();
             })
         });
 </script>
-<script type="text/javascript">
+<script>
+$(document).ready(function(){
 
-   $(document).ready( function() {
-  $('a[href="#"]').live('click', function(e){
-    e.preventDefault();
-  });
-  
-  $('#menu > li').live('mouseover', function(e){
-    $(this).find("ul:first").show();
-    $(this).find('> a').addClass('active');
-  }).live('mouseout', function(e){
-    $(this).find("ul:first").hide();
-    $(this).find('> a').removeClass('active');
-  });
-  
-  $('#menu li li').live('mouseover',function(e){
-    if($(this).has('ul').length) {
-      $(this).parent().addClass('expanded');
-    }
-    $('ul:first',this).parent().find('> a').addClass('active');
-    $('ul:first',this).show();
-  }).live('mouseout',function(e){
-    $(this).parent().removeClass('expanded');
-    $('ul:first',this).parent().find('> a').removeClass('active');
-    $('ul:first', this).hide();
-  });
-});
-</script>	
+	// hide #back-top first
+	$("#back-top").hide();
 	
+	// fade in #back-top
+	$(function () {
+		$(window).scroll(function () {
+			if ($(this).scrollTop() > 100) {
+				$('#back-top').fadeIn();
+			} else {
+				$('#back-top').fadeOut();
+			}
+		});
+
+		// scroll body to 0px on click
+		$('#back-top a').click(function () {
+			$('body,html').animate({
+				scrollTop: 0
+			}, 800);
+			return false;
+		});
+	});
+
+});
+</script>
 </head>
 <body>
 	<div class="container_16">			
@@ -138,16 +158,18 @@ $.noConflict();
 		</div>
 		<div class="grid_16">
 			 <?php echo $this->element('admin/main_menu'); ?>
-		</div>
+		
 		
 		<div class="clear" style="height: 10px; width: 100%;"></div>
 		<h2 id="page-heading"><?php echo $this->Session->flash(); ?></h2>
 			
 
 			<?php echo $content_for_layout; ?>
-		
+		</div>
+		<p id="back-top"><a href="#top"><span></span>Back to Top</a></p>
 		
 	</div>
+	
 	<?php  // echo $this->element('sql_dump'); ?>
 </body>
 </html>

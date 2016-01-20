@@ -8,30 +8,31 @@ class GermanListingsController extends AppController {
 	function beforeFilter()
 	{
 		parent::beforeFilter();
-		$this->Auth->allow('*');
 		$this->layout = 'defaultGR';
-		//$this->Auth->allow(array('login','logout','index','edit','delete','groups','import'));
+		$this->Auth->allow(array('login','logout','index','edit','delete','update','import','categoriesPro','category'));
 	}
 	
-function index () {
+	function index () 
+	{
 			
 			if((!empty($this->data)) &&(!empty($_POST['submit']))){
-				print_r($this->data['GermanListing']['all_item']);die();
+				//print_r($this->data['GermanListing']['all_item']);die();
 			$string = explode(",",trim($this->data['GermanListing']['all_item']));
 			
 				$prsku = 	$string[0];
-				$prname = 	$string[1];
+				if(!empty($string[1])){
+				$prname = 	$string[1];}
 	
 		if((!empty($prsku)) && (!empty($prname))){//debug($this->data); die();
 			//$conditions = array('GermanListing.item_sku' => $prsku);
-			$conditions = array('GermanListing.item_name LIKE' => '%'.$prname.'%','GermanListing.item_sku LIKE' => '%'.$prsku.'%');
-		$this->paginate = array('limit' => 1000,'totallimit' => 2000,'order'=>'GermanListing.item_sku  ASC','conditions' => $conditions);
+			$conditions = array('GermanListing.product_code LIKE' => '%'.$prname.'%','GermanListing.item_sku LIKE' => '%'.$prsku.'%');
+		$this->paginate = array('limit' => 1000,'totallimit' => 2000,'order'=>'GermanListing.id  ASC','conditions' => $conditions);
 			}
 			if((!empty($prsku))){
 			
 			$conditions = array(
-			'OR'=> array('GermanListing.item_name LIKE' => "%$prsku%",'GermanListing.item_sku LIKE' => "%$prsku%"));
-			$this->paginate = array('limit' => 1000,'totallimit' => 2000,'order'=>'GermanListing.item_sku  ASC','conditions' => $conditions);
+			'OR'=> array('GermanListing.product_code LIKE' => "%$prsku%",'GermanListing.item_sku LIKE' => "%$prsku%"));
+			$this->paginate = array('limit' => 1000,'totallimit' => 2000,'order'=>'GermanListing.id  ASC','conditions' => $conditions);
 			}
 		
 		
@@ -52,11 +53,41 @@ function index () {
 		else
 		{
 		$this->GermanListing->recursive = 1;
-		$this->paginate = array('limit' => 1000,'totallimit' => 2000,'order'=>'GermanListing.item_sku  ASC');
+		$this->paginate = array('limit' => 1000,'totallimit' => 2000,'order'=>'GermanListing.id  ASC');
 		$this->set('german_listings', $this->paginate());
 		}
 	}
-	function import() {
+        
+        
+                 function categoriesPro() {
+                                    $this->loadModel('InventoryMaster');
+                                    $procategory = $this->InventoryMaster->find('list', array('fields' =>'category','group'=>'category','recursive' => 0));
+                                        return $procategory;
+	}
+        
+                 function category($id) { 
+                     
+                                 if((!empty($id)))
+                                             {
+                                     //$id = 'Duvet Covers';
+                                           $this->loadModel('InventoryMaster');
+                                            $procategory = $this->InventoryMaster->find('list',array('fields'=>'product_code','conditions' => array('InventoryMaster.category LIKE' => "%$id%")));
+                                             //$prodcode = $procategory['InventoryMaster']['product_code'];
+                                            // debug($procategory);die();
+                                            	$conditions = array('GermanListing.product_code'=>$procategory);
+                                                $this->paginate = array('limit' => 1000,'totallimit' => 2000,'order'=>'GermanListing.id  ASC','conditions' => $conditions);
+					                                             
+                                             }
+                                         $this->GermanListing->recursive = 1;
+                                         $this->set('german_listings', $this->paginate());
+
+                            }
+	
+        
+                            
+                            
+	function import()
+	{
 		if (!empty($this->data))
                         { 
 		$filename = $this->data['GermanListing']['file']['name'];	
@@ -83,7 +114,40 @@ function index () {
 			
 		
 		}
+		
+		function update()
+		{
+			if (!empty($this->data))
+                        { 
+					$filename = $this->data['GermanListing']['file']['name'];	
+					$fileExt = explode(".", $filename);
+					$fileExt2 = end($fileExt);
+							if($fileExt2 == 'csv')
+							{
+							if(move_uploaded_file($this->data['GermanListing']['file']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . '/app/webroot/files/' . $this->data['GermanListing']['file']['name'])) 
+							$messages = $this->GermanListing->update($filename);
+							$this->Session->setFlash(__('The Amazon Germany Listing was update successfully.', true));
+							//$this->redirect(array('action' => 'index'));
+							$this->set('anything', $messages);
+							Configure::write('debug', '2');
+								}
+								else
+								{
+						
+									$this->Session->setFlash(__('The Amazon Germany Listing File format not supported.</br>Please upload .CSV file format only.', true));
+								}
+				
+						}			
+						else 
+						{
+			//$filename = 'Amazon_UK_Inventory-old.csv';
+			//$messages = $this->Listing->import($filename);
+						}
+			
+		
+		}
 
+		
 		function download(){
 	App::import("Vendor","parsecsv");
 	$csv = new parseCSV();

@@ -47,4 +47,4 @@ header("Location: /dashboard/users/logout/");
 		<?php echo $this->Paginator->next(__('next', true) . ' >>', array(), null, array('class' => 'disabled'));?>
 	</div>
 </div>
-<?php echo $this->element('admin_sidebar'); ?> 
+

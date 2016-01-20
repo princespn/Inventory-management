@@ -8,7 +8,7 @@ class ProjectsController extends AppController {
 	function beforeFilter()
 	{
 		parent::beforeFilter();
-		$this->Auth->allow(array('login','logout','index','edit','import','menus'));
+		$this->Auth->allow(array('login','logout','index','edit','import','update','categoriesPro','category'));
 	}
 	
 					
@@ -20,18 +20,19 @@ class ProjectsController extends AppController {
 			$string = explode(",",trim($this->data['Project']['all_item']));
 			
 				$prsku = 	$string[0];
-				$prname = 	$string[1];
+				if(!empty($string[1])){
+				$prname = 	$string[1];}
 	
 				if((!empty($prsku)) && (!empty($prname))){
 					
-					$conditions = array('Project.item_name LIKE' => '%'.$prname.'%','Project.item_sku LIKE' => '%'.$prsku.'%');
-				$this->paginate = array('limit' => 1000,'totallimit' => 2000,'order'=>'Project.item_sku  ASC','conditions' => $conditions);
+					$conditions = array('Project.product_code LIKE' => '%'.$prname.'%','Project.item_sku LIKE' => '%'.$prsku.'%');
+				$this->paginate = array('limit' => 1000,'totallimit' => 2000,'order'=>'Project.id  ASC','conditions' => $conditions);
 					}
 					if((!empty($prsku))){
 					
 					$conditions = array(
-					'OR'=> array('Project.item_name LIKE' => "%$prsku%",'Project.item_sku LIKE' => "%$prsku%"));
-					$this->paginate = array('limit' => 1000,'totallimit' => 2000,'order'=>'Project.item_sku  ASC','conditions' => $conditions);
+					'OR'=> array('Project.product_code LIKE' => "%$prsku%",'Project.item_sku LIKE' => "%$prsku%"));
+					$this->paginate = array('limit' => 1000,'totallimit' => 2000,'order'=>'Project.id  ASC','conditions' => $conditions);
 					}
 				
 		
@@ -52,24 +53,79 @@ class ProjectsController extends AppController {
 			else
 			{
 			$this->Project->recursive = 1;
-			$this->paginate = array('limit' => 1000,'totallimit' => 2000,'order'=>'Project.item_sku  ASC');
+			$this->paginate = array('limit' => 1000,'totallimit' => 2000,'order'=>'Project.id  ASC');
 			$this->set('projects', $this->paginate());
 			}
 	}
-		
-		
-				
+        
+                function categoriesPro() {
+                                    $this->loadModel('InventoryMaster');
+                                    $procategory = $this->InventoryMaster->find('list', array('fields' =>'category','group'=>'category','recursive' => 0));
+                                        return $procategory;
+	}
+        
+                 function category($id) { 
+                     
+                                 if((!empty($id)))
+                                             {
+                                     //$id = 'Duvet Covers';
+                                           $this->loadModel('InventoryMaster');
+                                            $procategory = $this->InventoryMaster->find('list',array('fields'=>'product_code','conditions' => array('InventoryMaster.category LIKE' => "%$id%")));
+                                             //$prodcode = $procategory['InventoryMaster']['product_code'];
+                                            // debug($procategory);die();
+                                            	$conditions = array('Project.product_code'=>$procategory);
+                                                $this->paginate = array('limit' => 1000,'totallimit' => 2000,'order'=>'Project.id  ASC','conditions' => $conditions);
+					                                             
+                                             }
+                                         $this->Project->recursive = 1;
+                                         $this->set('projects', $this->paginate());
+
+                            }
+	
+        
 	function import() {
 		if (!empty($this->data))
-                        { 
+                        {
 		$filename = $this->data['Project']['file']['name'];
-				
 		$fileExt = explode(".", $filename);
 		$fileExt2 = end($fileExt);
 							if($fileExt2 == 'csv') {
 							if(move_uploaded_file($this->data['Project']['file']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . '/app/webroot/files/' . $this->data['Project']['file']['name'])) 
 								$messages = $this->Project->import($filename);
 								$this->Session->setFlash(__('The Amazon UK Listing was Imports successfully.', true));
+								
+								if (!empty($messages)){
+								$this->set('anything', $messages);
+								Configure::write('debug', '2');
+								}
+									
+							}
+							else {
+								
+								$this->Session->setFlash(__('The Amazon UK Listing File format not supported.</br>Please upload .CSV file format only.', true));
+							}
+	
+						}			
+						else 
+						{
+				//$filename = 'Amazon_UK_Inventory-old.csv';
+				//$messages = $this->Project->import($filename);
+						}
+			
+		
+		}
+
+		
+function update() {
+		if (!empty($this->data))
+                        {
+		$filename = $this->data['Project']['file']['name'];
+		$fileExt = explode(".", $filename);
+		$fileExt2 = end($fileExt);//print_r($fileExt);die();
+							if($fileExt2 == 'csv') {
+							if(move_uploaded_file($this->data['Project']['file']['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . '/app/webroot/files/' . $this->data['Project']['file']['name'])) 
+								$messages = $this->Project->update($filename);
+								$this->Session->setFlash(__('The Amazon UK Listing was Update successfully.', true));
 								
 								if (!empty($messages)){
 								$this->set('anything', $messages);

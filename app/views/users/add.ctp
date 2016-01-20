@@ -29,7 +29,7 @@ echo $javascript->link('test.js');
 		
 	
 	</fieldset>
-<div class='reset'>
+<div class='submit'>
 <?php 
 echo $this->Form->button('Submit the Form', array('type'=>'submit'));
 echo "&nbsp;&nbsp;&nbsp;&nbsp;";

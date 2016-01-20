@@ -1,21 +1,45 @@
 <ul class="nav main">
 	<li>
-	<a href="#">Imports Listing</a>
+	<a href="#">Inventory Master</a>
 		<ul>
-			 <li><?php echo $this->Html->link(__('UK Listing', true), array('controller' => 'projects', 'action' => 'import')); ?></li>
-             <li><?php echo $this->Html->link(__('France Listing', true), array('controller' => 'listings', 'action' => 'import')); ?></li>
-			 <li><?php echo $this->Html->link(__('Germany Listing', true), array('controller' => 'german_listings', 'action' => 'import')); ?></li>
-              
-		</ul>	
+			 <li><?php echo $this->Html->link(__('Import Master Inventory', true), array('controller' => 'inventory_masters', 'action' => 'import_inventory')); ?></li>
+             <!--<li><?php echo $this->Html->link(__('Update Listing', true), array('controller' => 'inventory_masters', 'action' => 'update')); ?></li>-->
+			 <li><?php echo $this->Html->link(__('Exports Master Inventory', true), array('controller' => 'inventory_masters', 'action' => 'index')); ?></li>
+        </ul>	
 	</li>
 	<li>
-		<li><a href="#">Exports Listing</a>
+	<a href="#">Amazon UK Listing</a>
 		<ul>
-          <li><?php echo $this->Html->link(__('UK Listing', true), array('controller' => 'projects', 'action' => 'index')); ?></li>
-          <li><?php echo $this->Html->link(__('France Listing', true), array('controller' => 'listings', 'action' => 'index')); ?></li>
-		  <li><?php echo $this->Html->link(__('Germany Listing', true), array('controller' => 'german_listings', 'action' => 'index')); ?></li>
-        </ul>
+			 <li><?php echo $this->Html->link(__('Import UK Listing', true), array('controller' => 'projects', 'action' => 'import')); ?></li>
+             <li><?php echo $this->Html->link(__('Update UK Listing', true), array('controller' => 'projects', 'action' => 'update')); ?></li>
+			 <li><?php echo $this->Html->link(__('Exports UK Listing', true), array('controller' => 'projects', 'action' => 'index')); ?></li>
+        </ul>	
 	</li>
+	<li>
+	<a href="#">Amazon FR Listing</a>
+		<ul>
+			 <li><?php echo $this->Html->link(__('Import FR Listing', true), array('controller' => 'listings', 'action' => 'import')); ?></li>
+            <li><?php echo $this->Html->link(__('Update FR Listing', true), array('controller' => 'listings', 'action' => 'update')); ?></li>
+			 <li><?php echo $this->Html->link(__('Exports FR Listing', true), array('controller' => 'listings', 'action' => 'index')); ?></li>
+        </ul>	
+	</li>
+	<li>
+	<a href="#">Amazon DE Listing</a>
+		<ul>
+                <li><?php echo $this->Html->link(__('Import DE Listing', true), array('controller' => 'german_listings', 'action' => 'import')); ?></li>
+             <li><?php echo $this->Html->link(__('Update DE Listing', true), array('controller' => 'german_listings', 'action' => 'update')); ?></li>
+			 <li><?php echo $this->Html->link(__('Exports DE Listing', true), array('controller' => 'german_listings', 'action' => 'index')); ?></li>
+        </ul>	
+	</li>
+	<li>
+	<a href="#">Ebay Listing</a>
+	<ul>
+			 <li><?php echo $this->Html->link(__('Import Ebay Listing', true), array('controller' => 'ebayenglish_listings', 'action' => 'import')); ?></li>
+             <!--<li><?php echo $this->Html->link(__('Update Ebay Listing', true), array('controller' => 'ebayenglish_listings', 'action' => 'update')); ?></li>-->
+			 <li><?php echo $this->Html->link(__('Exports Ebay Listing', true), array('controller' => 'ebayenglish_listings', 'action' => 'index')); ?></li>
+    </ul>	
+	</li>
+	<li>
 	<li>
 		<?php echo $this->Html->link(__('My Account', true), array('controller' => 'users','action' => 'index'));?>	
 	          <ul>

@@ -8,7 +8,7 @@ class UsersController extends AppController
 	
 	function beforeFilter() 
 				{    
-		parent::beforeFilter();
+		parent::beforeFilter();		
 		$this->Auth->allow(array('login','logout','index','edit','view','groups'));
 		$this->Auth->userModel = 'User';  
        //$this->Auth->allow('*');  
@@ -46,17 +46,12 @@ class UsersController extends AppController
 			$this->redirect($this->Auth->logout());
       		}
 
-
-
-
-    function add() {
+   function add() {
 		
 		if (!empty($this->data))
 				 {
 			 	if ((!empty($this->data['User']['new_password'])) && (!empty($this->data['User']['confirm_password'])))
 							{
-								//print_r($this->data['User']['']);
-								//print_r("</br>");
 								
 								if($this->data['User']['new_password'] != $this->data['User']['confirm_password']) 
 								{
@@ -65,37 +60,17 @@ class UsersController extends AppController
 								else
 								{
 								$newpass = $this->Auth->password($this->data['User']['new_password']);
-								//print_r($newpass);die();
+								
 								$this->data['User']['password'] = $newpass;
 									$this->User->create($this->data);
 									if ($this->User->save($this->data))
 									{
-									$this->Email->smtpOptions = array(
-									  'port'=>'587',
-									  'timeout'=>'30',
-									  'host' => 'smtp.sendgrid.net',
-									  'username'=>'sendgrid_username',
-									  'password'=>'sendgrid_password',
-									  'client' => 'yourdomain.com'
-									);
-
-									$this->Email->delivery = 'smtp';
-									$this->Email->from = $this->data['User']['email'];
-									$this->Email->to = $this->data['User']['username'];
-									$this->set('User name', $this->data['User']['username']);
-									$this->Email->subject = 'The user has been Created.';
-									$this->Email->template = 'Add user';
-									$this->Email->sendAs = 'both';
-									$this->Email->send();
-
-										
 									$this->Session->setFlash(__('The user has been Create successfully.', true));
 									$this->redirect(array('action' => 'index'));
 									} 
 									else
 									{
-										//debug($this->validationErrors); die();
-									$this->Session->setFlash(__('The user could not be saved. please try again.', true));
+									$this->Session->setFlash(__('The user could not be saved. Please try again.', true));
 									}
 								}												
 						}			
@@ -107,15 +82,13 @@ class UsersController extends AppController
 		$groups = $this->User->Group->find('list');
 		$this->set(compact('groups'));
 	}
-					
+							
 						
 		function index() {
 				$this->User->recursive = 1;
 				$this->paginate = array('limit' => 1000,'totallimit' => 2000,'order'=>'User.created  desc');
 				$this->set('users', $this->paginate());
-					
-				
-			}
+				}
 			
 	function view($id = null) {
 						if (!$id) {

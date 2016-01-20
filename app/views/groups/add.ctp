@@ -14,4 +14,4 @@ header("Location: /dashboard/users/logout/");
 	</fieldset>
 <?php echo $this->Form->end(__('Submit', true));?>
 </div>
-<?php echo $this->element('admin_sidebar'); ?> 
+
