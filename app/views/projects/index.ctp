@@ -19,10 +19,7 @@ $this->requestAction('/users/logout/', array('return'));
 	}
 	$filename='projects';
 	echo $csv->render($filename);
-	}else{
-	
-	
-	
+	}else{	
   ?>
 <div class="projects index"><div class="grid_16">
 <h2 id="page-heading"><?php __('Amazon UK Listing');?></h2>
@@ -76,14 +73,20 @@ $this->requestAction('/users/logout/', array('return'));
 		<td><?php 
 		 if(!empty($project['Project']['item_name']))
 		{
-		$row1 = $project['Project']['item_name'];			
+		$row1 = $project['Project']['item_name'];
+		$keyword = $project['Project']['generic_keywords1'];
 		$item = strlen($row1); 
 				 if($item >= '500'){
 				 echo "<div style='color:red;'>Item Name must be no long 500 characters.</div>";
 				 
 				 }else {
-				  $itemname = utf8_encode(substr($row1,0,50)); 
-					echo ($itemname);				 
+				$percentage = 0;
+				$keyword = similar_text($row1,$keyword,$percentage);
+				 $itemname = utf8_encode(substr($row1,0,50)); 
+					echo ($itemname);
+					echo "</BR>";
+					printf("<div style='color:red;'>The Title are %d percent Keyword.</div>", $percentage);
+    										
 				 }
 		
 		}else{
