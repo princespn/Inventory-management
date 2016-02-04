@@ -4,11 +4,9 @@ if($session->read('Auth.User.group_id')=='4' && $session->read('Auth.User.group_
 $this->requestAction('/users/logout/', array('return'));
 }
 ?>
-
- <?php
+<?php
 // debug($categorieslist);die();
  if((!empty($_POST['checkid'])) &&(!empty($_POST['exports']))){
-
 	$line= $inventorymasters[0]['InventoryMaster'];	
 	//$mapping = array('','','','SKU','','','AM-UK Title','','','','','AM-UK Description','','','AM-UK Standard Price','','','','','','','AM-UK Sale from date','AM-UK Sale end date','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','AM-UK bullet_point 1','AM-UK bullet_point 2','AM-UK bullet_point 3','AM-UK bullet_point 4','AM-UK bullet_point 5','AM-UK Search Terms 1','AM-UK Search Terms 2','AM-UK Search Terms 3','AM-UK Search Terms 1','AM-UK Search Terms 4','AM-UK Search Terms 5','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','','AM-UK Colour Map','AM-UK Size Map','','','AM-UK Material');
 	//echo $csv->addRow($mapping);
@@ -95,16 +93,19 @@ $this->requestAction('/users/logout/', array('return'));
                 <td><?php 
 		 if(!empty($project['InventoryMaster']['title']))
 		{
-		$row1 = $project['InventoryMaster']['title'];			
+		$row1 = $project['InventoryMaster']['title'];
+		$keyword = $project['InventoryMaster']['keyword'];		
 		$item = strlen($row1); 
 				 if($item >= '500'){
 				 echo "<div style='color:red;'>Item Name must be no long 500 characters.</div>";
-				 
-				 }else {
-				 $itemname = substr($row1,0,200); 				 
-				 echo ($itemname);
-								 
-				 }
+				}else {
+				$percentage = 0;
+				$keyword = similar_text($row1,$keyword,$percentage);
+				$itemname = substr($row1,0,200); 				 
+				echo ($itemname);
+				echo "</BR>";
+				printf("<div style='color:red;'>The Title are %d percent Keyword.</div>", $percentage);
+    			 }
 		
 		}else{
 		echo "<div style='color:red;'>Item Name is required</div>";

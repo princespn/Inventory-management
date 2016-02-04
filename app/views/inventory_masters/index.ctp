@@ -4,7 +4,6 @@ if($session->read('Auth.User.group_id')=='4' && $session->read('Auth.User.group_
 $this->requestAction('/users/logout/', array('return'));
 }
 ?>
-
  <?php
 // debug($categorieslist);die();
  if((!empty($_POST['checkid'])) &&(!empty($_POST['exports']))){
@@ -64,7 +63,7 @@ $this->requestAction('/users/logout/', array('return'));
 		 $productid = $project['InventoryMaster']['id'];
 		echo $this->Form->input('InventoryMaster.id',array('class'=>'chk1', 'selected'=>'selected','label'=>'','multiple' => 'checkbox', 'value' =>$productid,'name'=>'checkid[]', 'type'=>'checkbox')); ?></td>
 		<td class="checkbox"><?php echo $project['InventoryMaster']['product_code']; ?></td>
-                <td class="checkbox"><?php echo $project['InventoryMaster']['item_sku']; ?></td>
+        <td class="checkbox"><?php echo $project['InventoryMaster']['item_sku']; ?></td>
 		<td class="checkbox"><?php echo $project['InventoryMaster']['barcodes']; ?></td>		
 		<td class="checkbox"><?php echo $project['InventoryMaster']['category']; ?></td>
 		<td class="checkbox"><?php echo $project['InventoryMaster']['browse_nodes']; ?></td>	
@@ -95,16 +94,20 @@ $this->requestAction('/users/logout/', array('return'));
                 <td><?php 
 		 if(!empty($project['InventoryMaster']['title']))
 		{
-		$row1 = $project['InventoryMaster']['title'];			
+		$row1 = $project['InventoryMaster']['title'];
+		$keyword = $project['InventoryMaster']['keyword'];		
 		$item = strlen($row1); 
 				 if($item >= '500'){
 				 echo "<div style='color:red;'>Item Name must be no long 500 characters.</div>";
 				 
 				 }else {
-				 $itemname = substr($row1,0,200); 				 
-				 echo ($itemname);
-								 
-				 }
+				$percentage = 0;
+				$keyword = similar_text($row1,$keyword,$percentage);
+				$itemname = substr($row1,0,200); 				 
+				echo ($itemname);
+				echo "</BR>";
+				printf("<div style='color:red;'>The Title are %d percent Keyword.</div>", $percentage);
+    			}
 		
 		}else{
 		echo "<div style='color:red;'>Item Name is required</div>";
