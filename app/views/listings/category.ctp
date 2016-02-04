@@ -30,8 +30,6 @@ $this->requestAction('/users/logout/', array('return'));
 <th colspan="6"></th>
 </tr>
 	<tr style="background:#666666;color:#ffffff;">
-			
-				
 			<th style="width:90px;"><a class="checkall" href="#">Check All</a><?php echo ' | ' ; ?><a class="uncheckall" href="#">Uncheck All</a></th>
 			<th><?php __('Image');?></th>
 			<th><?php __('Product Code');?></th>
@@ -75,13 +73,18 @@ $this->requestAction('/users/logout/', array('return'));
 		 if(!empty($listing['Listing']['item_name']))
 		{
 		$row1 = $listing['Listing']['item_name'];			
+		$keyword = $listing['Listing']['generic_keywords1'];
 		$item = strlen($row1); 
 				 if($item >= '500'){
 				 echo "<div style='color:red;'>Item Name must be no long 500 characters.</div>";
 				 
 				 }else {
-				 $itemname = substr($row1,0,50); 				 
-				 echo ($itemname);
+				$percentage = 0;
+				$keyword = similar_text($row1,$keyword,$percentage);
+				$itemname = substr($row1,0,50); 				 
+					echo "</BR>";
+					printf("<div style='color:red;'>The Title are %d percent Keyword.</div>", $percentage);
+					echo ($itemname);
 								 
 				 }
 		
