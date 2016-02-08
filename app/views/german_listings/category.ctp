@@ -68,7 +68,7 @@ $this->requestAction('/users/logout/', array('return'));
                 <td class="checkbox"><?php echo $german_listing['GermanListing']['product_code']; ?></td>
 		<td class="checkbox"><?php echo $german_listing['GermanListing']['item_sku']; ?></td>
                  <td><?php echo $german_listing['InventoryMaster']['category']; ?></td>
-                <td><?php echo $german_listing['InventoryMaster']['browse_nodes']; ?></td>
+                <td><?php echo $german_listing['GermanListing']['recommended_browse_nodes1']; ?></td>
 		<td class="checkbox"><?php 
 		 if(!empty($german_listing['GermanListing']['item_name']))
 		{

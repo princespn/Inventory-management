@@ -68,7 +68,7 @@ $this->requestAction('/users/logout/', array('return'));
                 <td><?php echo $project['Project']['product_code']; ?></td>
 		<td><?php echo $project['Project']['item_sku']; ?></td>
                 <td><?php echo $project['InventoryMaster']['category']; ?></td>
-                <td><?php echo $project['InventoryMaster']['browse_nodes']; ?></td>
+                <td><?php echo $project['Project']['recommended_browse_nodes1']; ?></td>
 		<td><?php 
 		 if(!empty($project['Project']['item_name']))
 		{

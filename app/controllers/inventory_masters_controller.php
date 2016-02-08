@@ -1,9 +1,9 @@
 <?php
 class InventoryMastersController extends AppController {
    
-       	var $name = 'InventoryMasters';
-	var $components = array('Acl', 'Auth', 'Session','RequestHandler');
-	var $helpers = array('Html', 'Form','Ajax','Javascript','Js','Csv');
+    var $name = 'InventoryMasters';
+	var $components = array('Acl', 'Auth', 'Session','RequestHandler','Paginator');
+	var $helpers = array('Html', 'Form','Ajax','Javascript','Js' => array('Jquery'), 'Paginator','Csv');
 	
 	function beforeFilter()
 	{
@@ -11,6 +11,8 @@ class InventoryMastersController extends AppController {
 		$this->Auth->allow(array('login','logout','index','edit_inventory','import_inventory','delete_inventory','categorieslist','category'));
                 $this->Auth->userModel = 'User';  
                 $this->Session->activate();
+		$this->layout = ($this->request->is("ajax")) ? "ajax" : "default";
+			
 	} 
 	
         

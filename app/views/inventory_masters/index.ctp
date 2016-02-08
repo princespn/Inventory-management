@@ -20,6 +20,9 @@ $this->requestAction('/users/logout/', array('return'));
 	echo $csv->render($filename);
 	}else{	
   ?>
+ <?php
+$this->Paginator->options(array('update'=>'#saveForm','url'=>array('controller'=>'inventory_masters','action'=>'index')));
+?>
 <div class="projects index"><div class="grid_16">
 <h2 id="page-heading"><?php __('Inventory Masters Database');?></h2>
 <table cellpadding="0" cellspacing="0">

@@ -66,7 +66,7 @@ $this->requestAction('/users/logout/', array('return'));
                 <td><?php echo $listing['Listing']['product_code']; ?></td>
 		<td><?php echo $listing['Listing']['item_sku']; ?></td>
                  <td><?php echo $listing['InventoryMaster']['category']; ?></td>
-                <td><?php echo $listing['InventoryMaster']['browse_nodes']; ?></td>
+                <td><?php echo $listing['Listing']['recommended_browse_nodes1']; ?></td>
 		<td><?php 
 		 if(!empty($listing['Listing']['item_name']))
 		{
